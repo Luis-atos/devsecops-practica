@@ -35,10 +35,16 @@ jobs:
       - name: Construir imagen Docker
         run: |
           docker build -t mi-api:latest .
+          
+      - name: Esperar antes de install Trivy
+        run: sleep 10
 
       # Instalación y escaneo con Trivy
       - name: Instalar Trivy
         uses: aquasecurity/trivy-action@0.28.0
+
+      - name: Esperar antes de escaneo Trivy
+        run: sleep 10
 
       - name: Escanear imagen con Trivy
         uses: aquasecurity/trivy-action@0.28.0
