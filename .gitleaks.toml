@@ -1,1 +1,60 @@
-//configuracion
+title = "Ejemplo configuración Gitleaks"
+description = "Reglas personalizadas para encontrar secretos en repositorios"
+report = "gitleaks-report.json"
+log-opts = { enable = true, redaction = true }
+
+# Reglas personalizadas
+[[rules]]
+id = "generic-password"
+description = "Detecta patrones de contraseñas genéricas (password=, pwd=, etc.)"
+regex = '''(?i)(password\s*=\s*['"][^'"]+['"]|pwd\s*=\s*['"][^'"]+['"])'''
+tags = ["secret", "password"]
+
+[[rules]]
+id = "aws-access-key"
+description = "Detecta AWS Access Keys (AKIA...)"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["key", "aws", "credentials"]
+
+[[rules]]
+id = "aws-secret-key"
+description = "Detecta AWS Secret Access Keys"
+regex = '''(?i)aws_secret_access_key\s*=\s*['"]?[0-9a-zA-Z\/+=]{40}['"]?'''
+tags = ["key", "aws", "credentials"]
+
+[[rules]]
+id = "private-key"
+description = "Detecta cabeceras de claves privadas PEM"
+regex = '''-----BEGIN (?:RSA|DSA|EC|OPENSSH) PRIVATE KEY-----'''
+tags = ["key", "pem", "private"]
+
+[[rules]]
+id = "api-key"
+description = "Detecta API Keys con formato común (hex/base64 con longitud > 20)"
+regex = '''(?i)(api[_-]?key)['"]?\s*[:=]\s*['"]?[A-Za-z0-9_\-]{20,}['"]?'''
+tags = ["api", "credenciales"]
+
+# Exclusiones globales
+[allowlist]
+description = "Lista de exclusiones"
+files = [
+    "README.md",
+    "docs/**",
+    "*.md"
+]
+
+# Exclusión de rutas específicas (directorios o patrones)
+paths = [
+    "tests/**",
+    "examples/**",
+    "public/**",
+    "dist/**",
+    "build/**"
+]
+
+# Opcional: ignorar valores específicos ya rotados
+regexes = [
+    '''dummysecret1234567890''',
+    '''EXAMPLE[A-Z0-9]{10}'''
+]
+
