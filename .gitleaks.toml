@@ -45,11 +45,11 @@ files = [
 
 # Exclusión de rutas específicas (directorios o patrones)
 paths = [
-    "tests/**",
-    "examples/**",
-    "public/**",
-    "dist/**",
-    "build/**"
+    '''^tests/.*$''',
+    '''^examples/.*$''',
+    '''^public/.*$''',
+    '''^dist/.*$''',
+    '''^build/.*$'''
 ]
 
 # Opcional: ignorar valores específicos ya rotados
