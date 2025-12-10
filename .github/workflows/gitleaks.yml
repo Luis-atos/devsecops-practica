@@ -1,0 +1,31 @@
+name: Gitleaks Scan
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  gitleaks:
+    name: Ejecutar Gitleaks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Necesario para que Gitleaks revise historial completo si se quiere
+
+      - name: Instalar Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          version: "latest"
+
+      - name: Ejecutar análisis
+        run: |
+          gitleaks detect \
+            --source . \
+            --report-format json \
+            --report-path gitleaks-report.json \
+            --config .gitleaks.toml
