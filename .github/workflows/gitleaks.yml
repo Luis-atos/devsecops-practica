@@ -38,10 +38,10 @@ jobs:
 
       # Instalación y escaneo con Trivy
       - name: Instalar Trivy
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@0.28.0
 
       - name: Escanear imagen con Trivy
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: mi-api:latest
           format: 'table'
